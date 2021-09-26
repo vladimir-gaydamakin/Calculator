@@ -1,10 +1,22 @@
 package com;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
+        Map<String, Integer> romanNumerals = Map.of(
+                "I", 1,
+                "II", 2,
+                "III", 3,
+                "IV", 4,
+                "V", 5,
+                "VI", 6,
+                "VII", 7,
+                "VIII", 8,
+                "IX", 9,
+                "X", 10
+        );
         Scanner sc = new Scanner(System.in);
         String inputString = "";
         if (sc.hasNextLine()) {
@@ -22,7 +34,7 @@ public class Main {
         sc.close();
     }
 
-    private static void execute(String a, String b, char op){
+    private static void execute(int a, int b, char op){
         switch (op) {
             case '+' :
                 System.out.println(a + b);
@@ -39,6 +51,15 @@ public class Main {
             default :
                 System.out.println("Unknown operator");
                 break;
+        }
+    }
+
+    private static boolean isDigit(String s) throws NumberFormatException {
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }
