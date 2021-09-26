@@ -5,21 +5,20 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
-        Map<String, Integer> romanNumerals = Map.of(
-                "I", 1,
-                "II", 2,
-                "III", 3,
-                "IV", 4,
-                "V", 5,
-                "VI", 6,
-                "VII", 7,
-                "VIII", 8,
-                "IX", 9,
-                "X", 10
-        );
+        HashMap<String, Integer> romanNumerals = new HashMap<>();
+        romanNumerals.put("I", 1);
+        romanNumerals.put("II", 2);
+        romanNumerals.put("III", 3);
+        romanNumerals.put("IV", 4);
+        romanNumerals.put("V", 5);
+        romanNumerals.put("VI", 6);
+        romanNumerals.put("VII", 7);
+        romanNumerals.put("VIII", 8);
+        romanNumerals.put("IX", 9);
+        romanNumerals.put("X", 10);
 
         Scanner sc = new Scanner(System.in);
-        String inputString = "";
+        String inputString;
 
         if (sc.hasNextLine()) {
             inputString = sc.nextLine();
@@ -28,44 +27,53 @@ public class Main {
             return;
         }
 
-        String[] input =  inputString.split(" ");
+        String[] input = inputString.split(" ");
         if (input.length != 3) {
             System.out.println("throws Exception out of bounds");
             return;
         }
 
-        if (isDigit(input[0]) && isDigit(input[2]) && inBounds(input[0]) && inBounds(input[2])) {
-            System.out.println(execute(Integer.parseInt(input[0]), Integer.parseInt(input[2]), input[1].charAt(0)));
-        } else if (romanNumerals.get(input[0]) != null && romanNumerals.get(input[2]) != null){
-            int romanResult = execute(romanNumerals.get(input[0]), romanNumerals.get(input[2]), input[1].charAt(0));
-            if () {
-                System.out.println(romanResult);
+        String firstDigit = input[0];
+        String secondDigit = input[2];
+        char operator = input[1].charAt(0);
+
+        if (isDigit(firstDigit) && isDigit(secondDigit) && inBounds(firstDigit) && inBounds(secondDigit)) {
+            System.out.println(execute(Integer.parseInt(firstDigit),Integer.parseInt(secondDigit), operator));
+        } else if (romanNumerals.get(firstDigit) != null && romanNumerals.get(secondDigit) != null) {
+            int romanResult = execute(romanNumerals.get(firstDigit), romanNumerals.get(secondDigit), operator);
+
+            if (romanResult < 1) {
+                System.out.println("throws Exception wrong Romanian numbers");
+            } else if (romanResult <= 10) {
+                System.out.println(getKeyByValue(romanNumerals, romanResult));
+            } else {
+                System.out.println("X" + getKeyByValue(romanNumerals, romanResult - 10));
             }
         } else {
-            System.out.println("throws Exception не 2 цифры");
+            System.out.println("throws Exception wrong numbers");
         }
         sc.close();
     }
 
-    private static int execute(int a, int b, char op) throws NumberFormatException {
+    private static int execute(int a, int b, char op) throws ArithmeticException {
         switch (op) {
-            case '+' :
+            case '+':
                 return a + b;
-            case '-' :
+            case '-':
                 return a - b;
-            case '*' :
+            case '*':
                 return a * b;
-            case '/' :
-                  if (b != 0) {
+            case '/':
+                if (b != 0) {
                     return a / b;
-                  } else {
+                } else {
                     throw new ArithmeticException("Division by 0!");
-                  }
-            default :
-                System.out.println("Unknown operator");
+                }
+            default:
+                System.out.println("throws Exception Unknown operator");
                 break;
         }
-        return 0;
+        return 1000;
     }
 
     private static boolean isDigit(String s) throws NumberFormatException {
@@ -79,6 +87,15 @@ public class Main {
 
     private static boolean inBounds(String s) {
         int n = Integer.parseInt(s);
-        return n > 0 && n < 11 ? true : false;
+        return n > 0 && n < 11;
+    }
+
+    public static String getKeyByValue(HashMap<String, Integer> map, Integer value) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (value.equals(entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return null;
     }
 }
