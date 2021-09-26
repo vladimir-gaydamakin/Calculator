@@ -17,6 +17,7 @@ public class Main {
                 "IX", 9,
                 "X", 10
         );
+        System.out.println(romanNumerals.get("X"));
         Scanner sc = new Scanner(System.in);
         String inputString = "";
         if (sc.hasNextLine()) {
@@ -30,7 +31,7 @@ public class Main {
             System.out.println("throws Exception");
             return;
         }
-        execute(input[0], input[2], input[1].charAt(0));
+        //execute(input[0], input[2], input[1].charAt(0));
         sc.close();
     }
 
