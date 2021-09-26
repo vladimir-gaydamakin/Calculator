@@ -70,10 +70,8 @@ public class Main {
                     throw new ArithmeticException("Division by 0!");
                 }
             default:
-                System.out.println("throws Exception Unknown operator");
-                break;
+                throw new ArithmeticException("Unknown operator");
         }
-        return 1000;
     }
 
     private static boolean isDigit(String s) throws NumberFormatException {
