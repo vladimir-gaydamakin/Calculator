@@ -17,7 +17,6 @@ public class Main {
                 "IX", 9,
                 "X", 10
         );
-        System.out.println(romanNumerals.get("X"));
         Scanner sc = new Scanner(System.in);
         String inputString = "";
         if (sc.hasNextLine()) {
@@ -31,7 +30,13 @@ public class Main {
             System.out.println("throws Exception");
             return;
         }
-        //execute(input[0], input[2], input[1].charAt(0));
+        if (isDigit(input[0]) && isDigit(input[2])) {
+            execute(Integer.parseInt(input[0]), Integer.parseInt(input[2]), input[1].charAt(0));
+        } else if (romanNumerals.get(input[0]) != null && romanNumerals.get(input[2]) != null){
+            execute(romanNumerals.get(input[0]), romanNumerals.get(input[2]), input[1].charAt(0));
+        } else {
+            System.out.println("throws Exception");
+        }
         sc.close();
     }
 
