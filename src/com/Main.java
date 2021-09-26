@@ -17,23 +17,30 @@ public class Main {
                 "IX", 9,
                 "X", 10
         );
+
         Scanner sc = new Scanner(System.in);
         String inputString = "";
+
         if (sc.hasNextLine()) {
             inputString = sc.nextLine();
         } else {
             System.out.println("throws Exception");
             return;
         }
+
         String[] input =  inputString.split(" ");
         if (input.length != 3) {
             System.out.println("throws Exception out of bounds");
             return;
         }
-        if (isDigit(input[0]) && isDigit(input[2])) {
+
+        if (isDigit(input[0]) && isDigit(input[2]) && inBounds(input[0]) && inBounds(input[2])) {
             System.out.println(execute(Integer.parseInt(input[0]), Integer.parseInt(input[2]), input[1].charAt(0)));
         } else if (romanNumerals.get(input[0]) != null && romanNumerals.get(input[2]) != null){
-            execute(romanNumerals.get(input[0]), romanNumerals.get(input[2]), input[1].charAt(0));
+            int romanResult = execute(romanNumerals.get(input[0]), romanNumerals.get(input[2]), input[1].charAt(0));
+            if () {
+                System.out.println(romanResult);
+            }
         } else {
             System.out.println("throws Exception не 2 цифры");
         }
@@ -68,5 +75,10 @@ public class Main {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    private static boolean inBounds(String s) {
+        int n = Integer.parseInt(s);
+        return n > 0 && n < 11 ? true : false;
     }
 }
