@@ -26,38 +26,39 @@ public class Main {
             return;
         }
         String[] input =  inputString.split(" ");
-        if (input.length > 3) {
-            System.out.println("throws Exception");
+        if (input.length != 3) {
+            System.out.println("throws Exception out of bounds");
             return;
         }
         if (isDigit(input[0]) && isDigit(input[2])) {
-            execute(Integer.parseInt(input[0]), Integer.parseInt(input[2]), input[1].charAt(0));
+            System.out.println(execute(Integer.parseInt(input[0]), Integer.parseInt(input[2]), input[1].charAt(0)));
         } else if (romanNumerals.get(input[0]) != null && romanNumerals.get(input[2]) != null){
             execute(romanNumerals.get(input[0]), romanNumerals.get(input[2]), input[1].charAt(0));
         } else {
-            System.out.println("throws Exception");
+            System.out.println("throws Exception не 2 цифры");
         }
         sc.close();
     }
 
-    private static void execute(int a, int b, char op){
+    private static int execute(int a, int b, char op) throws NumberFormatException {
         switch (op) {
             case '+' :
-                System.out.println(a + b);
-                break;
+                return a + b;
             case '-' :
-                System.out.println(a - b);
-                break;
+                return a - b;
             case '*' :
-                System.out.println(a * b);
-                break;
+                return a * b;
             case '/' :
-                System.out.println(b != 0 ? a / b : "Division by 0!");
-                break;
+                  if (b != 0) {
+                    return a / b;
+                  } else {
+                    throw new ArithmeticException("Division by 0!");
+                  }
             default :
                 System.out.println("Unknown operator");
                 break;
         }
+        return 0;
     }
 
     private static boolean isDigit(String s) throws NumberFormatException {
