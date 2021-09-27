@@ -42,6 +42,7 @@ public class Main {
         if (isDigit(firstDigit) && isDigit(secondDigit) &&
                 inBounds(Integer.parseInt(firstDigit)) &&
                 inBounds(Integer.parseInt(secondDigit))) {
+
             System.out.println(execute(Integer.parseInt(firstDigit), Integer.parseInt(secondDigit), operator));
 
         } else if (romanNumeral.get(firstDigit) != null && romanNumeral.get(secondDigit) != null) {
@@ -81,12 +82,12 @@ public class Main {
     }
 
     private static void toRoman(int n) {
-        int[] number = new int[] {100, 90, 50, 40, 10, 9, 5, 4, 1};
-        String[] romanNumber = new String[] {"C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int[] number = new int[]{100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] romanNumber = new String[]{"C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
 
-        for(int i = 0; i < number.length; i++) {
+        for (int i = 0; i < number.length; i++) {
             int repeat = n / number[i];
-            for(int j = 0; j < repeat; j++) {
+            for (int j = 0; j < repeat; j++) {
                 System.out.print(romanNumber[i]);
                 n = n - number[i];
             }
