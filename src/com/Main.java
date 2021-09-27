@@ -19,7 +19,7 @@ public class Main {
         romanNumeral.put("X", 10);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws conditionException {
 
         Scanner sc = new Scanner(System.in);
         String inputString;
@@ -27,12 +27,12 @@ public class Main {
         if (sc.hasNextLine()) {
             inputString = sc.nextLine();
         } else {
-            throw new IOException("Enter expression");
+            throw new conditionException("Enter expression");
         }
 
         String[] input = inputString.split(" ");
         if (input.length != 3) {
-            throw new IOException("Wrong expression");
+            throw new conditionException("Wrong expression");
         }
 
         String firstDigit = input[0];
@@ -48,23 +48,23 @@ public class Main {
         } else if (romanNumeral.get(firstDigit) != null && romanNumeral.get(secondDigit) != null) {
             int romanResult = executeExpression(romanNumeral.get(firstDigit), romanNumeral.get(secondDigit), operator);
             if (romanResult < 1) {
-                throw new IOException("Can't evaluate Roman numbers");
+                throw new conditionException("Can't evaluate Roman numbers");
             } else {
                 toRoman(romanResult);
             }
         } else {
-            throw new IOException("Wrong values");
+            throw new conditionException("Wrong values");
         }
         sc.close();
     }
 
-    private static int executeExpression(int a, int b, char op) throws IOException {
+    private static int executeExpression(int a, int b, char op) throws conditionException {
         return switch (op) {
             case '+' -> a + b;
             case '-' -> a - b;
             case '*' -> a * b;
             case '/' -> a / b;
-            default -> throw new IOException("Unknown operator");
+            default -> throw new conditionException("Unknown operator");
         };
     }
 
@@ -91,6 +91,12 @@ public class Main {
                 System.out.print(romanNumber[i]);
                 n = n - number[i];
             }
+        }
+    }
+
+    public static class conditionException extends IOException {
+        public conditionException(String message) {
+            super(message);
         }
     }
 }
