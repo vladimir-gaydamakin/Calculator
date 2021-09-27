@@ -1,21 +1,25 @@
 package com;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Main {
+    static HashMap<String, Integer> romanNumeral = new HashMap<>();
 
-    public static void main(String[] args) {
-        HashMap<String, Integer> romanNumerals = new HashMap<>();
-        romanNumerals.put("I", 1);
-        romanNumerals.put("II", 2);
-        romanNumerals.put("III", 3);
-        romanNumerals.put("IV", 4);
-        romanNumerals.put("V", 5);
-        romanNumerals.put("VI", 6);
-        romanNumerals.put("VII", 7);
-        romanNumerals.put("VIII", 8);
-        romanNumerals.put("IX", 9);
-        romanNumerals.put("X", 10);
+    static {
+        romanNumeral.put("I", 1);
+        romanNumeral.put("II", 2);
+        romanNumeral.put("III", 3);
+        romanNumeral.put("IV", 4);
+        romanNumeral.put("V", 5);
+        romanNumeral.put("VI", 6);
+        romanNumeral.put("VII", 7);
+        romanNumeral.put("VIII", 8);
+        romanNumeral.put("IX", 9);
+        romanNumeral.put("X", 10);
+    }
+
+    public static void main(String[] args) throws IOException {
 
         Scanner sc = new Scanner(System.in);
         String inputString;
@@ -23,55 +27,44 @@ public class Main {
         if (sc.hasNextLine()) {
             inputString = sc.nextLine();
         } else {
-            System.out.println("throws Exception");
-            return;
+            throw new IOException("Enter expression");
         }
 
         String[] input = inputString.split(" ");
         if (input.length != 3) {
-            System.out.println("throws Exception out of bounds");
-            return;
+            throw new IOException("Wrong expression");
         }
 
         String firstDigit = input[0];
         String secondDigit = input[2];
         char operator = input[1].charAt(0);
 
-        if (isDigit(firstDigit) && isDigit(secondDigit) && inBounds(firstDigit) && inBounds(secondDigit)) {
-            System.out.println(execute(Integer.parseInt(firstDigit),Integer.parseInt(secondDigit), operator));
-        } else if (romanNumerals.get(firstDigit) != null && romanNumerals.get(secondDigit) != null) {
-            int romanResult = execute(romanNumerals.get(firstDigit), romanNumerals.get(secondDigit), operator);
+        if (isDigit(firstDigit) && isDigit(secondDigit) &&
+                inBounds(Integer.parseInt(firstDigit)) &&
+                inBounds(Integer.parseInt(secondDigit))) {
+            System.out.println(execute(Integer.parseInt(firstDigit), Integer.parseInt(secondDigit), operator));
 
+        } else if (romanNumeral.get(firstDigit) != null && romanNumeral.get(secondDigit) != null) {
+            int romanResult = execute(romanNumeral.get(firstDigit), romanNumeral.get(secondDigit), operator);
             if (romanResult < 1) {
-                System.out.println("throws Exception wrong Romanian numbers");
-            } else if (romanResult <= 10) {
-                System.out.println(getKeyByValue(romanNumerals, romanResult));
+                throw new IOException("Can't evaluate Roman numbers");
             } else {
-                System.out.println("X" + getKeyByValue(romanNumerals, romanResult - 10));
+                toRoman(romanResult);
             }
         } else {
-            System.out.println("throws Exception wrong numbers");
+            throw new IOException("Wrong values");
         }
         sc.close();
     }
 
-    private static int execute(int a, int b, char op) throws ArithmeticException {
-        switch (op) {
-            case '+':
-                return a + b;
-            case '-':
-                return a - b;
-            case '*':
-                return a * b;
-            case '/':
-                if (b != 0) {
-                    return a / b;
-                } else {
-                    throw new ArithmeticException("Division by 0!");
-                }
-            default:
-                throw new ArithmeticException("Unknown operator");
-        }
+    private static int execute(int a, int b, char op) throws IOException {
+        return switch (op) {
+            case '+' -> a + b;
+            case '-' -> a - b;
+            case '*' -> a * b;
+            case '/' -> a / b;
+            default -> throw new IOException("Unknown operator");
+        };
     }
 
     private static boolean isDigit(String s) throws NumberFormatException {
@@ -83,17 +76,20 @@ public class Main {
         }
     }
 
-    private static boolean inBounds(String s) {
-        int n = Integer.parseInt(s);
+    private static boolean inBounds(int n) {
         return n > 0 && n < 11;
     }
 
-    public static String getKeyByValue(HashMap<String, Integer> map, Integer value) {
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            if (value.equals(entry.getValue())) {
-                return entry.getKey();
+    private static void toRoman(int n) {
+        int[] number = new int[] {100, 90, 50, 40, 10, 9, 5, 4, 1};
+        String[] romanNumber = new String[] {"C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+
+        for(int i = 0; i < number.length; i++) {
+            int repeat = n / number[i];
+            for(int j = 0; j < repeat; j++) {
+                System.out.print(romanNumber[i]);
+                n = n - number[i];
             }
         }
-        return null;
     }
 }
