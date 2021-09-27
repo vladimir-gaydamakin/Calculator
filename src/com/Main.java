@@ -43,10 +43,10 @@ public class Main {
                 inBounds(Integer.parseInt(firstDigit)) &&
                 inBounds(Integer.parseInt(secondDigit))) {
 
-            System.out.println(execute(Integer.parseInt(firstDigit), Integer.parseInt(secondDigit), operator));
+            System.out.println(executeExpression(Integer.parseInt(firstDigit), Integer.parseInt(secondDigit), operator));
 
         } else if (romanNumeral.get(firstDigit) != null && romanNumeral.get(secondDigit) != null) {
-            int romanResult = execute(romanNumeral.get(firstDigit), romanNumeral.get(secondDigit), operator);
+            int romanResult = executeExpression(romanNumeral.get(firstDigit), romanNumeral.get(secondDigit), operator);
             if (romanResult < 1) {
                 throw new IOException("Can't evaluate Roman numbers");
             } else {
@@ -58,7 +58,7 @@ public class Main {
         sc.close();
     }
 
-    private static int execute(int a, int b, char op) throws IOException {
+    private static int executeExpression(int a, int b, char op) throws IOException {
         return switch (op) {
             case '+' -> a + b;
             case '-' -> a - b;
